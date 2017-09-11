@@ -1,0 +1,34 @@
+<form method="post" class="form-inline" novalidate>
+{% csrf_token %}
+	{% for tag in form %}
+
+  <div class="form-group">
+
+	<label for="id_name">{{ tag.item.field.label }}</label>
+    {{ tag.item }}
+		{% if tag.is_popup %}
+		<a href="#" onclick="popupUrl('{{ tag.popup_url }}')">添加</a>
+		{% endif %}
+	{{ tag.item.errors.0 }}
+
+  </div>
+		</br>
+{% endfor %}
+<button type="submit" class="btn btn-default">Send invitation</button>
+</form>
+
+	<script>
+		function popupUrl(url) {
+			window.open(url, "xxx", "status=1, height=500, width=600, toolbar=1, resizeable=0")
+  };
+
+  function popupCallBack(data) {
+	    console.log('popupCallBack', data);
+			var tag = document.createElement('option');
+			tag.setAttribute('value', data.id);
+			tag.setAttribute('selected', 'selected');
+			tag.innerHTML = data.text;
+			document.getElementById(data.popid).appendChild(tag);
+			return true
+  }
+	</script>

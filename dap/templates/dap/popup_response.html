@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>正在关闭页面...</title>
+</head>
+<body>
+<script>
+	data_dic = {{ data|safe }}
+	ret = opener.popupCallBack(data_dic);
+	console.log(ret);
+	if (ret) {window.close()};
+{#	window.close();#}
+</script>
+</body>
+</html>

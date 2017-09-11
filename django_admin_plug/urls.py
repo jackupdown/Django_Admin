@@ -16,9 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 # from django.contrib import admin
 from dap.service import v1
+from dap import views
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r'^dap/', v1.site.urls),
+
+    # url(r'^test/', views.test),
+    # url(r'^add_test/', views.add_test),
 
 ]

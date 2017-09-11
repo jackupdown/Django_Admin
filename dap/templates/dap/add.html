@@ -1,0 +1,21 @@
+{% load field_display %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+</head>
+<body>
+	<h1>添加数据</h1>
+{% show_add_edit_form form %}
+	{#	<a href="add/{{ param_str }}">添加</a>#}
+	<form class="hide" method="post" action="" novalidate>
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="提交">
+		<input type="button" value="返回---暂无">
+	</form>
+
+</body>
+</html>

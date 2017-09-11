@@ -1,12 +1,88 @@
 {% load field_display %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
+	<link rel="stylesheet" href="{% static 'plugins/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 </head>
 <body>
-	<h1>数据列表</h1>
+
+{#	<a href="add/{{ param_str }}">添加</a>#}
+	<div class="container col-lg-8 col-lg-offset-2">
+		<h1>数据列表</h1>
+		<a href="{{ add_url }}">添加</a>
 	{% func ret_list list_display base_dap_obj %}
+	</div>
+
+<!-- 分页开始 -->
+<ul class="pagination">
+	{{ page_str|safe }}
+</ul>
+<!-- 分页结束 -->
+
+
+	<!-- 模态弹出窗 -->
+<div class="modal fade" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">确定要删除吗?</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong></strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">容朕三思</button>
+                <button type="button" class="btn btn-primary">删了吧</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script src="{% static 'jquery-3.2.1.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+<script>
+	$(function () {
+		console.log('www..');
+	    bind_del();
+  });
+
+	// 删除item
+	function bind_del() {
+	    console.log('bind...');
+			$(".delf").click(function () {
+			    var val = $(this).val();
+			    var url = $(this).attr('url-value');
+			    var url2 = url + '&pk=' + val;
+					console.log(val, url);
+					var content = $(this).parent().prevAll('td').slice(2, 3).clone();
+					$(".modal-body p strong").html(content);
+					$(".modal-footer .btn-primary").click(function () {
+							$.ajax({
+							    url: url2,
+									type: 'GET',
+									dataType: 'JSON',
+									success: function (args) {
+							        console.log(args);
+							        if (args.code == 1) {
+													$(".modal-body p").text('delete success!');
+													console.log(window.location.href);
+													setTimeout("location.href='" + window.location.href + "'",2000);
+{#													若用户继续删除，提示用户不能再继续删除了#}
+
+											}else {
+							            $(".modal-body p").text(args.msg);
+											}
+                  }
+
+							})
+          });
+      })
+  }
+</script>
 </body>
 </html>
